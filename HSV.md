@@ -1,3 +1,4 @@
+```python
 import cv2 as cv   #importa openCv
 import numpy as np  # Importa Numpy
 
@@ -24,3 +25,5 @@ cv.imshow('RGB',img9)
 
 cv.waitKey (0)
 cv.destroyAllWindows
+
+```

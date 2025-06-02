@@ -1,3 +1,4 @@
+```python
 import cv2
 import mediapipe as mp
 
@@ -34,3 +35,5 @@ while cap.isOpened():
 
 cap.release()
 cv2.destroyAllWindows()
+
+```

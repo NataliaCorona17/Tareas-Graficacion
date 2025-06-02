@@ -1,3 +1,4 @@
+```python
 import cv2
 import numpy as np
 
@@ -22,3 +23,4 @@ cv2.imwrite("imagen_mejorada.jpg", imagen_hd)
 
 print("Imagen guardada como 'imagen_mejorada.jpg'")
     
+```

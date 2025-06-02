@@ -1,3 +1,4 @@
+```python
 import cv2
 import numpy as np
 
@@ -54,3 +55,5 @@ while cap.isOpened():
 # Liberar los recursos
 cap.release()
 cv2.destroyAllWindows()
+
+```

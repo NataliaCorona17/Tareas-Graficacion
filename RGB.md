@@ -1,3 +1,4 @@
+```python
 import cv2 as cv   #importa openCv
 import numpy as np  # Importa Numpy
 print (cv.__version__)
@@ -22,3 +23,5 @@ cv.imshow('g2 ',g2)
 cv.imshow('img2',img3)
 cv.waitKey (0)
 cv.destoyAllWindows()
+
+```

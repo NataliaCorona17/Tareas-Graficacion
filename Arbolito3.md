@@ -1,3 +1,4 @@
+```python
 import glfw
 from OpenGL.GL import *
 from OpenGL.GLU import gluPerspective, gluLookAt, gluNewQuadric, gluCylinder, gluSphere
@@ -9,12 +10,11 @@ camera_target = [0.0, 1.0, 0.0]  # Punto al que mira
 camera_up = [0.0, 1.0, 0.0]  # Vector hacia arriba
 
 # Variables para el movimiento
-camera_speed = 0.2  # Velocidad de movimiento
+camera_speed = 0.02  # Velocidad de movimiento
 keys = {}  # Diccionario para controlar el estado de las teclas
 
 
 def init():
-    """Configuración inicial de OpenGL"""
     glClearColor(0.5, 0.8, 1.0, 1.0)  # Fondo azul cielo
     glEnable(GL_DEPTH_TEST)           # Activar prueba de profundidad
 
@@ -25,7 +25,6 @@ def init():
 
 
 def draw_trunk():
-    """Dibuja el tronco del árbol como un cilindro"""
     glPushMatrix()
     glColor3f(0.6, 0.3, 0.1)  # Marrón para el tronco
     glTranslatef(0.0, 0.0, 0.0)  # Posicionar el tronco
@@ -36,19 +35,51 @@ def draw_trunk():
 
 
 def draw_foliage():
-    """Dibuja las hojas del árbol como una esfera"""
-    glPushMatrix()
-    glColor3f(0.1, 0.8, 0.1)  # Verde para las hojas
-    glTranslatef(0.0, 2.0, 0.0)  # Posicionar las hojas encima del tronco
+    glColor3f(0.3, 0.6, 0.3)  # Verde para las hojas
     quadric = gluNewQuadric()
-    gluSphere(quadric, 1.0, 32, 32)  # Radio de la esfera
-    glPopMatrix()
 
+    # Posiciones relativas de las esferas (follaje agrupado)
+    offsets = [
+        (0.0, 2.0, 0.0),
+        (0.6, 2.3, 0.0),
+        (-0.6, 2.3, 0.0),
+        (0.3, 2.0, 0.6),
+        (-0.3, 2.0, -0.6),
+        (0.0, 2.6, 0.3),
+        (0.0, 2.6, -0.3),
+        (0.4, 2.5, 0.4),
+        (-0.4, 2.5, -0.4)
+    ]
+
+    for offset in offsets:
+        glPushMatrix()
+        glTranslatef(offset[0], offset[1], offset[2])
+        gluSphere(quadric, 0.7, 32, 32)
+        glPopMatrix()
+
+
+def draw_apples():
+    glColor3f(1.0, 0.0, 0.0)  # Rojo brillante
+    quadric = gluNewQuadric()
+
+    apple_positions = [
+        (0.6, 2.4, 0.0),
+        (-0.6, 2.3, -0.4),
+        (0.0, 2.5, 0.6),
+        (0.4, 2.2, -0.5),
+        (-0.4, 2.2, 0.5),
+        (0.0, 1.8, -0.6)
+    ]
+
+    for pos in apple_positions:
+        glPushMatrix()
+        glTranslatef(pos[0], pos[1], pos[2])
+        gluSphere(quadric, 0.3, 16, 16)  # Esferas más grandes
+        glPopMatrix()
 
 def draw_ground():
-    """Dibuja un plano para representar el suelo"""
     glBegin(GL_QUADS)
-    glColor3f(0.3, 0.3, 0.3)  # Gris oscuro para el suelo
+    glColor3f(0.2, 0.5, 0.2)
     glVertex3f(-10, 0, 10)
     glVertex3f(10, 0, 10)
     glVertex3f(10, 0, -10)
@@ -57,42 +88,40 @@ def draw_ground():
 
 
 def draw_scene():
-    """Dibuja la escena completa"""
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
-    # Configuración de la cámara
-    gluLookAt(camera_pos[0], camera_pos[1], camera_pos[2],  # Posición de la cámara
-              camera_target[0], camera_target[1], camera_target[2],  # Punto al que mira
-              camera_up[0], camera_up[1], camera_up[2])  # Vector hacia arriba
+    # Cámara
+    gluLookAt(camera_pos[0], camera_pos[1], camera_pos[2],
+              camera_target[0], camera_target[1], camera_target[2],
+              camera_up[0], camera_up[1], camera_up[2])
 
-    draw_ground()  # Dibuja el suelo
-    draw_trunk()   # Dibuja el tronco
-    draw_foliage() # Dibuja las hojas
+    draw_ground()
+    draw_trunk()
+    draw_foliage()
+    draw_apples()  #Aquí añadimos las manzanas
 
     glfw.swap_buffers(window)
 
 
 def process_input():
-    """Procesa el estado de las teclas para mover la cámara"""
     global camera_pos
 
-    if keys.get(glfw.KEY_W, False):  # Mover hacia adelante
+    if keys.get(glfw.KEY_W, False):
         camera_pos[2] -= camera_speed
-    if keys.get(glfw.KEY_S, False):  # Mover hacia atrás
+    if keys.get(glfw.KEY_S, False):
         camera_pos[2] += camera_speed
-    if keys.get(glfw.KEY_A, False):  # Mover a la izquierda
+    if keys.get(glfw.KEY_A, False):
         camera_pos[0] -= camera_speed
-    if keys.get(glfw.KEY_D, False):  # Mover a la derecha
+    if keys.get(glfw.KEY_D, False):
         camera_pos[0] += camera_speed
-    if keys.get(glfw.KEY_UP, False):  # Subir
+    if keys.get(glfw.KEY_UP, False):
         camera_pos[1] += camera_speed
-    if keys.get(glfw.KEY_DOWN, False):  # Bajar
+    if keys.get(glfw.KEY_DOWN, False):
         camera_pos[1] -= camera_speed
 
 
 def key_callback(window, key, scancode, action, mods):
-    """Actualiza el estado de las teclas"""
     if action == glfw.PRESS:
         keys[key] = True
     elif action == glfw.RELEASE:
@@ -105,10 +134,10 @@ def main():
     # Inicializar GLFW
     if not glfw.init():
         sys.exit()
-    
-    # Crear ventana de GLFW
+
+    # Crear ventana
     width, height = 800, 600
-    window = glfw.create_window(width, height, "Mover Escena Completa", None, None)
+    window = glfw.create_window(width, height, "Árbol con Manzanas", None, None)
     if not window:
         glfw.terminate()
         sys.exit()
@@ -122,7 +151,7 @@ def main():
 
     # Bucle principal
     while not glfw.window_should_close(window):
-        process_input()  # Procesar teclas presionadas
+        process_input()
         draw_scene()
         glfw.poll_events()
 
@@ -131,3 +160,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+ 
+ ```

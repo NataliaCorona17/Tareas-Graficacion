@@ -1,3 +1,4 @@
+```python
 import cv2 as cv
 
 img = cv.imread ('img1.jpg',1)
@@ -19,3 +20,5 @@ cv.imshow ('res', res)
 
 cv.waitKey (0)
 cv.destroyAllWindows
+
+```

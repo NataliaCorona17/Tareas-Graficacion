@@ -1,3 +1,4 @@
+```python
 import glfw
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -49,3 +50,4 @@ if __name__ == "__main__":
     main()
 
 
+```

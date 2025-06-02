@@ -1,3 +1,4 @@
+```python
 import cv2 as cv
 import numpy as np
 
@@ -43,3 +44,4 @@ while True:
 cap.release()
 cv.destroyAllWindows()
 
+```

@@ -1,3 +1,4 @@
+```python
 import cv2 as cv
 import numpy as np
 
@@ -36,3 +37,5 @@ cv.imshow('Imagen Original', img)
 cv.imshow('Imagen Escalada (Suavizada)', smoothed_img)
 cv.waitKey(0)
 cv.destroyAllWindows()
+
+```

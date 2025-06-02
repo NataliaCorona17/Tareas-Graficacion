@@ -1,3 +1,4 @@
+```python
 import cv2 as cv   #importa openCv
 import numpy as np  # Importa Numpy
 
@@ -65,3 +66,5 @@ for i in range(80, 100):
 cv.imshow ('img2b',img)
 cv.waitKey (0)
 cv.destroyAllWindows
+
+```
